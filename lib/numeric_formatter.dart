@@ -46,6 +46,14 @@ class ThousandsFormatter extends NumberInputFormatter {
     if (allowFraction && digits.endsWith(_decimalSeparator)) {
       return '$result$_decimalSeparator';
     }
+
+    if (allowFraction && digits.endsWith("${_decimalSeparator}0")) {
+      return '$result${_decimalSeparator}0';
+    }
+
+    if (allowFraction && digits.endsWith("${_decimalSeparator}00")) {
+      return '$result${_decimalSeparator}00';
+    }
     return result;
   }
 
