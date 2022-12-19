@@ -43,6 +43,7 @@ class MyHomePage extends StatelessWidget {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       isDense: true,
+                      prefixText: "\$ ",
                       labelText: 'Integer Number'),
                   keyboardType: TextInputType.number,
                   inputFormatters: [
@@ -58,6 +59,23 @@ class MyHomePage extends StatelessWidget {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       isDense: true,
+                      prefixText: "\$ ",
+                      labelText: 'Integer Number'),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(15),
+                    ThousandsFormatter(),
+                  ],
+                  style: TextStyle(fontSize: 16.0, color: Colors.black),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      isDense: true,
+                      prefixText: "\$ ",
                       labelText: 'Decimal Number'),
                   keyboardType: TextInputType.number,
                   inputFormatters: [
