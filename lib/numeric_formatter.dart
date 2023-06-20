@@ -1,8 +1,8 @@
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart' show TextField;
-import 'package:intl/intl.dart';
-
 import 'dart:math';
+
+import 'package:flutter/material.dart' show TextField;
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 ///
 /// An implementation of [NumberInputFormatter] automatically inserts thousands
@@ -90,6 +90,50 @@ class CreditCardFormatter extends NumberInputFormatter {
     int count = min(4, digits.length);
     final length = digits.length;
     for (; count <= length; count += min(4, max(1, length - count))) {
+      buffer.write(digits.substring(offset, count));
+      if (count < length) {
+        buffer.write(separator);
+      }
+      offset = count;
+    }
+    return buffer.toString();
+  }
+
+  @override
+  TextEditingValue _formatValue(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    return _digitOnlyFormatter.formatEditUpdate(oldValue, newValue);
+  }
+
+  @override
+  bool _isUserInput(String s) {
+    return _digitOnlyRegex.firstMatch(s) != null;
+  }
+}
+
+///
+/// An implementation of [NumberInputFormatter] that converts a numeric input
+/// to a valid US postal code (99999-9999). For example, a input of
+/// `123456789` should be formatted to `12345-6789`.
+///
+class USPostalCodeFormatter extends NumberInputFormatter {
+  static final RegExp _digitOnlyRegex = RegExp(r'\d+');
+  static final FilteringTextInputFormatter _digitOnlyFormatter =
+      FilteringTextInputFormatter.allow(_digitOnlyRegex);
+
+  final String separator;
+
+  USPostalCodeFormatter({this.separator = '-'});
+
+  @override
+  String _formatPattern(String digits) {
+    if (digits.length == 10) return digits;
+
+    StringBuffer buffer = StringBuffer();
+    int offset = 0;
+    int count = min(5, digits.length);
+    final length = digits.length;
+    for (; count <= length; count += min(5, max(1, length - count))) {
       buffer.write(digits.substring(offset, count));
       if (count < length) {
         buffer.write(separator);

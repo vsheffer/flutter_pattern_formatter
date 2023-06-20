@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
-
 import 'package:pattern_formatter/pattern_formatter.dart';
 
 void main() {
@@ -18,6 +17,7 @@ _numericFormatterSmokeTest() {
   final ThousandsFormatter decimalFormatterES = ThousandsFormatter(
       formatter: NumberFormat.decimalPattern('es_ES'), allowFraction: true);
   final CreditCardFormatter creditCardFormatter = CreditCardFormatter();
+  final USPostalCodeFormatter usPostalCodeFormatter = USPostalCodeFormatter();
 
   test('numeric filter smoke test', () {
     final newValue1 = thousandsFormatter.formatEditUpdate(
@@ -162,6 +162,19 @@ _numericFormatterSmokeTest() {
         newValue2,
         equals(TextEditingValue(
             text: '1213 45', selection: TextSelection.collapsed(offset: 3))));
+  });
+
+  test('us postal code grouping smoke test', () {
+    final newValue1 = usPostalCodeFormatter.formatEditUpdate(
+        TextEditingValue(
+            text: '12345', selection: TextSelection.collapsed(offset: 5)),
+        TextEditingValue(
+            text: '123456', selection: TextSelection.collapsed(offset: 6)));
+
+    expect(
+        newValue1,
+        TextEditingValue(
+            text: '12345-6', selection: TextSelection.collapsed(offset: 7)));
   });
 }
 
