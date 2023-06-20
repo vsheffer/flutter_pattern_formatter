@@ -127,8 +127,6 @@ class USPostalCodeFormatter extends NumberInputFormatter {
 
   @override
   String _formatPattern(String digits) {
-    if (digits.length == 10) return digits;
-
     StringBuffer buffer = StringBuffer();
     int offset = 0;
     int count = min(5, digits.length);
