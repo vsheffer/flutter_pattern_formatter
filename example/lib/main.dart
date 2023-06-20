@@ -91,6 +91,21 @@ class MyHomePage extends StatelessWidget {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       isDense: true,
+                      labelText: 'Postal Code'),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(10),
+                    USPostalCodeFormatter(),
+                  ],
+                  style: TextStyle(fontSize: 16.0, color: Colors.black),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      isDense: true,
                       labelText: 'Card Number'),
                   keyboardType: TextInputType.number,
                   inputFormatters: [
